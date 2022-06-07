@@ -1,8 +1,8 @@
 // import logo from './logo.svg';
 import './App.css';
 import './assets/css/fonts.css';
-import NavigationBar from './components/NavigationBar';
-import MoonsamaCarnageStats from './components/MoonsamaCarnageStats';
+import NavigationBar from './components/Navigation Bar/NavigationBar';
+import MoonsamaCarnageStats from './components/Carnage Stats/MoonsamaCarnageStats';
 function App() {
   return (
     <div className="App">
