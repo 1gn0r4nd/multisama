@@ -1,10 +1,8 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
-import ListItemIcon from '@mui/material/ListItemIcon';
 import Card from '@mui/material/Card';
+import ResourceListItem from './ResourceListItem';
 import aStone from './../assets/img/mmaf/aStone.png';
 import aWood from './../assets/img/mmaf/aWood.png';
 import aIron from './../assets/img/mmaf/aIron.png';
@@ -13,15 +11,23 @@ import aExp from './../assets/img/mmaf/aExp.png';
 import aGrain from './../assets/img/mmaf/aGrain.png';
 import aString from './../assets/img/mmaf/aString.png';
 import aFish from './../assets/img/mmaf/aFishSpecimen.png';
-import Avatar from '@mui/material/Avatar';
 
-
-function MoonsamaCarnageStats(player) {
+function MoonsamaCarnageStats({player, week, year}) {
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [items, setItems] = useState([]);
+
+    // function getSundayOfCurrentWeek() {
+    //     const today = new Date();
+    //     const first = today.getDate() - today.getDay() + 1;
+    //     const last = first + 6;
+    //     const sunday = new Date(today.setDate(last));
+    //     return sunday;
+    // }
+
     useEffect(() => {
-        axios.get('https://mcapi.moonsama.com/game/minecraft-carnage-2022-05-29/carnage-stats/result/final?player=1gn0r4nd')
+        const carnage_url = 'https://mcapi.moonsama.com/game/minecraft-carnage-' + year + '-05-29/carnage-stats/result/final?player='+ player 
+        axios.get(carnage_url)
         .then(result=>{
             setIsLoaded(true);
             setItems(result.data);
@@ -30,63 +36,24 @@ function MoonsamaCarnageStats(player) {
             setIsLoaded(true);
             setError(err);
         })
-    }, []);
+    }, [year, player]);
+    
     if (error) {
         return <div>Error: {error.message}</div>;
     } else if (!isLoaded) {
         return <div>Loading...</div>;
     } else {
         return (
-            <Card variant="outlined">
+            <Card variant="outlined" className="CarnageStatsCard">
                 <List>
-                    <ListItem disablePadding>
-                        <ListItemIcon>
-                            <Avatar alt="aStone" src={aStone} />
-                        </ListItemIcon>
-                        <ListItemText primary="aStone" />{items.stone}
-                    </ListItem>
-                    <ListItem disablePadding>
-                        <ListItemIcon>
-                            <Avatar alt="aWood" src={aWood} />
-                        </ListItemIcon>
-                        <ListItemText primary="aWood" />{items.wood}
-                    </ListItem>
-                    <ListItem disablePadding>
-                        <ListItemIcon>
-                            <Avatar alt="aIron" src={aIron} />
-                        </ListItemIcon>
-                        <ListItemText primary="aIron" />{items.iron}
-                    </ListItem>
-                    <ListItem disablePadding>
-                        <ListItemIcon>
-                            <Avatar alt="aGold" src={aGold} />
-                        </ListItemIcon>
-                        <ListItemText primary="aGold" />{items.gold}
-                    </ListItem>
-                    <ListItem disablePadding>
-                    <ListItemIcon>
-                            <Avatar alt="aExp" src={aExp} />
-                        </ListItemIcon>
-                        <ListItemText primary="aExp" />{items.exp}
-                    </ListItem>
-                    <ListItem disablePadding>
-                    <ListItemIcon>
-                            <Avatar alt="aGrain" src={aGrain} />
-                        </ListItemIcon>
-                        <ListItemText primary="aGrain" />0
-                    </ListItem>
-                    <ListItem disablePadding>
-                    <ListItemIcon>
-                            <Avatar alt="aString" src={aString} />
-                        </ListItemIcon>
-                        <ListItemText primary="aString" />{items.string}
-                    </ListItem>
-                    <ListItem disablePadding>
-                        <ListItemIcon>
-                            <Avatar alt="aFish" src={aFish} />
-                        </ListItemIcon>
-                        <ListItemText primary="aFish Specimen" />{items.fish_specimen}
-                    </ListItem>
+                    <ResourceListItem name='aStone' image={aStone} qty={items.stone} />
+                    <ResourceListItem name='aWood' image={aWood} qty={items.wood} />
+                    <ResourceListItem name='aIron' image={aIron} qty={items.iron} />
+                    <ResourceListItem name='aGold' image={aGold} qty={items.gold} />
+                    <ResourceListItem name='aExp' image={aExp} qty={items.exp} />
+                    <ResourceListItem name='aGrain' image={aGrain} qty={items.grain} />
+                    <ResourceListItem name='aString' image={aString} qty={items.string} />
+                    <ResourceListItem name='aFish' image={aFish} qty={items.fish_specimen} />
                 </List>
             </Card>
             );
@@ -97,5 +64,11 @@ function MoonsamaCarnageStats(player) {
     //     {item.name} {item.price}
     //     </li>
     // ))}
-    
+    // Set default props
+//   getDefaultProps() {
+//     return {
+//       year: 2021,
+//       label: "Button Text"
+//     };
+//   }
     export default MoonsamaCarnageStats;
