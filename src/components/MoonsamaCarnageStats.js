@@ -4,6 +4,7 @@ import List from '@mui/material/List';
 import Card from '@mui/material/Card';
 import ResourceListItem from './ResourceListItem';
 import {ResourceIcons} from '../helpers/ResourceIcons';
+// import { connect } from 'react-redux';
 
 //function sanitize(stats){
 //    let keys = Object.keys(stats);
@@ -50,16 +51,19 @@ function MoonsamaCarnageStats({player, week, year}) {
             setIsLoaded(true);
             setError(err);
         })
-    }, [year, player]);
+    }, [year, week, player]);
 
    
     if (error) {
+        // Request failed with status code 422
         return <div>Error: {error.message}</div>;
+
     } else if (!isLoaded) {
         return <div>Loading...</div>;
     } else {
         return (
             <Card variant="outlined" className="CarnageStatsCard">
+                <h1>player: {player} year:{year}</h1>
                 <List>
                     <ResourceListItem name='aStone' image={ResourceIcons.alpha.aStone} qty={items.stone} />
                     <ResourceListItem name='aWood' image={ResourceIcons.alpha.aWood} qty={items.wood} />
@@ -86,4 +90,7 @@ function MoonsamaCarnageStats({player, week, year}) {
 //       label: "Button Text"
 //     };
 //   }
+    // const mapStateToProps = state => ({
+	//     player: state.player
+    // })
     export default MoonsamaCarnageStats;
