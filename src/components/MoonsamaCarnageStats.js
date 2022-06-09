@@ -5,11 +5,32 @@ import Card from '@mui/material/Card';
 import ResourceListItem from './ResourceListItem';
 import {ResourceIcons} from '../helpers/ResourceIcons';
 
+//function sanitize(stats){
+//    let keys = Object.keys(stats);
+    //add keys which dont exist?
+    //stats.hasOwnProperty(resource)
+//}
 function MoonsamaCarnageStats({player, week, year}) {
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [items, setItems] = useState([]);
 
+    function sanitize(data){
+        if(!data.hasOwnProperty('exp')){
+            data.exp = 0;
+        }
+        if(!data.hasOwnProperty('grain')){
+            data.grain = 0;
+        }
+        if(!data.hasOwnProperty('string')){
+            data.string = 0;
+        }
+        if(!data.hasOwnProperty('fish_specimen')){
+            data.fish_specimen = 0;
+        }
+        setItems(data);
+    }
+    
     // function getSundayOfCurrentWeek() {
     //     const today = new Date();
     //     const first = today.getDate() - today.getDay() + 1;
@@ -18,20 +39,12 @@ function MoonsamaCarnageStats({player, week, year}) {
     //     return sunday;
     // }
 
-    // function sanitize(stats, resource){
-    //     if(stats.hasOwnProperty(resource)) {
-    //         return stats.resource;
-    //     } else {
-    //         return 0;
-    //     }
-    // }
-
     useEffect(() => {
-        const carnage_url = 'https://mcapi.moonsama.com/game/minecraft-carnage-' + year + '-05-29/carnage-stats/result/final?player='+ player 
+        const carnage_url = 'https://mcapi.moonsama.com/game/minecraft-carnage-' + year + '-04-03/carnage-stats/result/final?player='+ player 
         axios.get(carnage_url)
         .then(result=>{
             setIsLoaded(true);
-            setItems(result.data);
+            sanitize(result.data);
         })
         .catch(err=>{
             setIsLoaded(true);
@@ -45,7 +58,6 @@ function MoonsamaCarnageStats({player, week, year}) {
     } else if (!isLoaded) {
         return <div>Loading...</div>;
     } else {
-        //console.log(sanitize(items,'string'));
         return (
             <Card variant="outlined" className="CarnageStatsCard">
                 <List>
