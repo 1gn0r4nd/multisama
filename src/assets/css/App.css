@@ -38,6 +38,8 @@
 }
 
 .CarnageStatsCard {
+  width: 40%;
   background-image: url(../img/backgrounds/undergraphics_pondsama_banner.jpg );
   background-repeat: no-repeat;
+  opacity: 0.4;
 }

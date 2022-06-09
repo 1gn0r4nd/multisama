@@ -8,6 +8,13 @@ https://mcapi.moonsama.com/game/minecraft-carnage-2022-05-29/carnage-stats/view/
 curl 'https://mcapi.moonsama.com/game/minecraft-carnage-2022-05-29/carnage-stats/result/recordings?player='
 https://moonriver-subgraph.moonsama.com/subgraphs/name/moonsama/marketplacev4/graphql
 
+Set up an indexer: https://docs.moonbeam.network/builders/integrations/indexers/
+
+there might be a published project that already handles this exact functionality, you can trying looking here: 
+- https://explorer.subquery.network/
+- https://app.subsquid.io/aquarium?list=all
+- https://thegraph.com/explorer/
+
 ## Available Scripts
 
 In the project directory, you can run:

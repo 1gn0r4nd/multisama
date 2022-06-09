@@ -3,14 +3,7 @@ import { useState, useEffect } from 'react';
 import List from '@mui/material/List';
 import Card from '@mui/material/Card';
 import ResourceListItem from './ResourceListItem';
-import aStone from './../assets/img/mmaf/aStone.png';
-import aWood from './../assets/img/mmaf/aWood.png';
-import aIron from './../assets/img/mmaf/aIron.png';
-import aGold from './../assets/img/mmaf/aGold.png';
-import aExp from './../assets/img/mmaf/aExp.png';
-import aGrain from './../assets/img/mmaf/aGrain.png';
-import aString from './../assets/img/mmaf/aString.png';
-import aFish from './../assets/img/mmaf/aFishSpecimen.png';
+import {ResourceIcons} from '../helpers/ResourceIcons';
 
 function MoonsamaCarnageStats({player, week, year}) {
     const [error, setError] = useState(null);
@@ -46,14 +39,14 @@ function MoonsamaCarnageStats({player, week, year}) {
         return (
             <Card variant="outlined" className="CarnageStatsCard">
                 <List>
-                    <ResourceListItem name='aStone' image={aStone} qty={items.stone} />
-                    <ResourceListItem name='aWood' image={aWood} qty={items.wood} />
-                    <ResourceListItem name='aIron' image={aIron} qty={items.iron} />
-                    <ResourceListItem name='aGold' image={aGold} qty={items.gold} />
-                    <ResourceListItem name='aExp' image={aExp} qty={items.exp} />
-                    <ResourceListItem name='aGrain' image={aGrain} qty={items.grain} />
-                    <ResourceListItem name='aString' image={aString} qty={items.string} />
-                    <ResourceListItem name='aFish' image={aFish} qty={items.fish_specimen} />
+                    <ResourceListItem name='aStone' image={ResourceIcons.aplha.aStone} qty={items.stone} />
+                    <ResourceListItem name='aWood' image={ResourceIcons.aplha.aWood} qty={items.wood} />
+                    <ResourceListItem name='aIron' image={ResourceIcons.aplha.aIron} qty={items.iron} />
+                    <ResourceListItem name='aGold' image={ResourceIcons.aplha.aGold} qty={items.gold} />
+                    <ResourceListItem name='aExp' image={ResourceIcons.aplha.aExp} qty={items.exp} />
+                    <ResourceListItem name='aGrain' image={ResourceIcons.aplha.aGrain} qty={items.grain} />
+                    <ResourceListItem name='aString' image={ResourceIcons.aplha.aString} qty={items.string} />
+                    <ResourceListItem name='aFish' image={ResourceIcons.aplha.aFish} qty={items.fish_specimen} />
                 </List>
             </Card>
             );
