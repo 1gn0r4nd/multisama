@@ -18,6 +18,14 @@ function MoonsamaCarnageStats({player, week, year}) {
     //     return sunday;
     // }
 
+    // function sanitize(stats, resource){
+    //     if(stats.hasOwnProperty(resource)) {
+    //         return stats.resource;
+    //     } else {
+    //         return 0;
+    //     }
+    // }
+
     useEffect(() => {
         const carnage_url = 'https://mcapi.moonsama.com/game/minecraft-carnage-' + year + '-05-29/carnage-stats/result/final?player='+ player 
         axios.get(carnage_url)
@@ -30,23 +38,25 @@ function MoonsamaCarnageStats({player, week, year}) {
             setError(err);
         })
     }, [year, player]);
-    
+
+   
     if (error) {
         return <div>Error: {error.message}</div>;
     } else if (!isLoaded) {
         return <div>Loading...</div>;
     } else {
+        //console.log(sanitize(items,'string'));
         return (
             <Card variant="outlined" className="CarnageStatsCard">
                 <List>
-                    <ResourceListItem name='aStone' image={ResourceIcons.aplha.aStone} qty={items.stone} />
-                    <ResourceListItem name='aWood' image={ResourceIcons.aplha.aWood} qty={items.wood} />
-                    <ResourceListItem name='aIron' image={ResourceIcons.aplha.aIron} qty={items.iron} />
-                    <ResourceListItem name='aGold' image={ResourceIcons.aplha.aGold} qty={items.gold} />
-                    <ResourceListItem name='aExp' image={ResourceIcons.aplha.aExp} qty={items.exp} />
-                    <ResourceListItem name='aGrain' image={ResourceIcons.aplha.aGrain} qty={items.grain} />
-                    <ResourceListItem name='aString' image={ResourceIcons.aplha.aString} qty={items.string} />
-                    <ResourceListItem name='aFish' image={ResourceIcons.aplha.aFish} qty={items.fish_specimen} />
+                    <ResourceListItem name='aStone' image={ResourceIcons.alpha.aStone} qty={items.stone} />
+                    <ResourceListItem name='aWood' image={ResourceIcons.alpha.aWood} qty={items.wood} />
+                    <ResourceListItem name='aIron' image={ResourceIcons.alpha.aIron} qty={items.iron} />
+                    <ResourceListItem name='aGold' image={ResourceIcons.alpha.aGold} qty={items.gold} />
+                    <ResourceListItem name='aExp' image={ResourceIcons.alpha.aExp} qty={items.exp} />
+                    <ResourceListItem name='aGrain' image={ResourceIcons.alpha.aGrain} qty={items.grain} />
+                    <ResourceListItem name='aString' image={ResourceIcons.alpha.aString} qty={items.string} />
+                    <ResourceListItem name='aFish' image={ResourceIcons.alpha.aFish} qty={items.fish_specimen} />
                 </List>
             </Card>
             );
