@@ -3,28 +3,10 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { createStore } from 'redux';
 import { Provider } from 'react-redux';
+import store from './store/store';
 
-const initialState = {
-  player: 'Donniebigbags'
-}
 
-function reducer(state = initialState, action) {
-  switch(action.type){
-    case "CHANGE_PLAYER":
-      // return {
-      //   ...state,
-      //   player: action.value
-      // }
-      return {
-        player: action.player
-      }
-    default:
-      return state;
-    }
-}
-const store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 //store.dispatch( { type: "CHANGEPLAYER", value: '1gn0r4nd' } );
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

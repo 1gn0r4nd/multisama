@@ -1,0 +1,35 @@
+.BUYOrderPressureBar .filled { 
+  background-color: green; 
+}
+.SELLOrderPressureBar .filled { 
+  background-color: red; 
+}
+.OrderPressureBar {
+  width: 300px;
+  height: 30px;
+  border-radius: 5px;
+  margin: 2px 10px;
+  border: 1px solid black;
+  overflow: hidden;
+  position: relative;
+}
+.OrderPressureBar .filled {
+    height: 100%;
+    display: block;
+    width: 0;
+    color: rgb(255, 251, 251);
+    line-height: 30px;
+    position: absolute;
+    text-align: end;
+    padding-right: 5px;
+  }
+  .OrderPressureBar .unfilled {
+    height: 100%;
+    display: block;
+    width: 0;
+    color: rgb(255, 251, 251);
+    line-height: 30px;
+    position: absolute;
+    text-align: right;
+    padding-right: 5px;
+  }

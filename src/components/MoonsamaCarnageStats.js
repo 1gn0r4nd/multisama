@@ -4,6 +4,7 @@ import List from '@mui/material/List';
 import Card from '@mui/material/Card';
 import ResourceListItem from './ResourceListItem';
 import {ResourceIcons} from '../helpers/ResourceIcons';
+import { getLastSunday, formatDate } from '../helpers/CarnageCalculator'
 // import { connect } from 'react-redux';
 
 //function sanitize(stats){
@@ -11,7 +12,7 @@ import {ResourceIcons} from '../helpers/ResourceIcons';
     //add keys which dont exist?
     //stats.hasOwnProperty(resource)
 //}
-function MoonsamaCarnageStats({player, week, year}) {
+function MoonsamaCarnageStats({player, last_sunday_from_date}) {
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [items, setItems] = useState([]);
@@ -31,17 +32,14 @@ function MoonsamaCarnageStats({player, week, year}) {
         }
         setItems(data);
     }
-    
-    // function getSundayOfCurrentWeek() {
-    //     const today = new Date();
-    //     const first = today.getDate() - today.getDay() + 1;
-    //     const last = first + 6;
-    //     const sunday = new Date(today.setDate(last));
-    //     return sunday;
-    // }
 
     useEffect(() => {
-        const carnage_url = 'https://mcapi.moonsama.com/game/minecraft-carnage-' + year + '-04-03/carnage-stats/result/final?player='+ player 
+        if(last_sunday_from_date === undefined){
+            last_sunday_from_date = getLastSunday();
+        }
+        let formatted_date = formatDate(last_sunday_from_date);
+        
+        const carnage_url = `https://mcapi.moonsama.com/game/minecraft-carnage-${formatted_date}/carnage-stats/result/final?player=${player}` 
         axios.get(carnage_url)
         .then(result=>{
             setIsLoaded(true);
@@ -51,7 +49,7 @@ function MoonsamaCarnageStats({player, week, year}) {
             setIsLoaded(true);
             setError(err);
         })
-    }, [year, week, player]);
+    }, [player, last_sunday_from_date]);
 
    
     if (error) {
@@ -63,7 +61,7 @@ function MoonsamaCarnageStats({player, week, year}) {
     } else {
         return (
             <Card variant="outlined" className="CarnageStatsCard">
-                <h1>player: {player} year:{year}</h1>
+                <h1>player: {player} year: 2022 </h1>
                 <List>
                     <ResourceListItem name='aStone' image={ResourceIcons.alpha.aStone} qty={items.stone} />
                     <ResourceListItem name='aWood' image={ResourceIcons.alpha.aWood} qty={items.wood} />
