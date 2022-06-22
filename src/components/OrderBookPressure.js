@@ -14,7 +14,9 @@ function OrderBookPressure({orders}) {
     //     {o.seller.id}
     //     </div>
     // ));
-    orders.sort((a, b) => a.pricePerUnit < b.pricePerUnit ? 1 : -1);
+
+    //Assume orders are sorted on price
+    //orders.sort((a, b) => a.pricePerUnit < b.pricePerUnit ? 1 : -1);
     let max_qty = Math.max(...orders.map(o => o.quantityLeft))
     let orderBook = orders.map(function( order, index ) {
         return( 

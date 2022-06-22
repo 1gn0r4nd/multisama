@@ -33,12 +33,14 @@ class CarnageStatsPage extends React.Component {
             <div className='CarnageStatsPage'>
                 <h1>Pondsama</h1>
                 <h1>Test</h1>
-                <input type='text' id='player_name' placeholder='player name' ></input>
+                <input 
+                    type='text' 
+                    id='player_name' 
+                    placeholder='player name' 
+                    value={player}
+                    onchange={(event) => this.props.dispatch({type: "carnage/CHANGE_PLAYER", player: event.target.value}>
+                </input>
                 <input type='select' id='carnage_date' placeholder={getLastSunday()}></input>
-                <button  type='button' 
-                    onClick={() => this.props.dispatch({type: "carnage/CHANGE_PLAYER", player: document.getElementById('player_name').value })}>
-                        Fetch
-                    </button >
                 <MoonsamaCarnageStats player={this.props.player} year={2022} />
             </div>
         )
