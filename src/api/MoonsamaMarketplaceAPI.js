@@ -31,17 +31,5 @@ export function getAPIOrders({orderType, asset, maker, skip, first}){
             pricePerUnit
             }
         }`
-    axios.post(marketplace_graphql_url, {query})
-    .then(result=>{
-        let axios_result = result.data
-        //TODO do error handling
-        //result.status
-        //result.statusText
-        console.log(result.data.data.orders);
-        return axios_result.data.orders;
-    })
-    .catch(err=>{
-        //TODO push it to state
-        return err;
-    })
+    return axios.post(marketplace_graphql_url, {query});
 }

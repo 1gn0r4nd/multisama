@@ -4,7 +4,7 @@
 import { useDispatch, useSelector } from "react-redux";
 // import { useState } from "react"; 
 import OrderBookPressure from '../components/OrderBookPressure';
-import { update_orders } from "../store/marketplaceSlice";
+import { updateOrders } from "../store/marketplaceSlice";
 import { selectAllOrders } from "../store/marketplaceSlice";
 //function sanitize(stats){
 //    let keys = Object.keys(stats);
@@ -28,7 +28,7 @@ const MoonsamaMFFOrders = () => {
         <section>
             <OrderBookPressure orders={orders} />
             { JSON.stringify(orders)}
-            <button onClick={() => dispatch(update_orders(payload))}>Refresh</button>
+            <button onClick={() => dispatch(updateOrders(payload))}>Refresh</button>
         </section>
     )
 }
