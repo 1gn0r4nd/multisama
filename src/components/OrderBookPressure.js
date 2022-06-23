@@ -22,8 +22,8 @@ function OrderBookPressure({orders}) {
         return( 
             <OrderPressure 
             key={index} 
-            price={order.pricePerUnit} 
-            qty={order.quantityLeft} 
+            price={order.pricePerUnit / 10**18} 
+            qty={order.quantityLeft / order.askPerUnitDenominator} 
             percentage_fill={100* order.quantityLeft / max_qty} 
             type={order.orderType} 
             />    

@@ -20,13 +20,13 @@ const columns: GridColDef[] = [
       // ${params.row.buyer.id || ''}
   },
   {
-    field: 'quantityLeft',
-    headerName: 'Quantity Left',
+    field: 'qty',
+    headerName: 'Quantity',
     description: 'This column has a value getter and is not sortable.',
     sortable: false,
     width: 160,
     valueGetter: (params: GridValueGetterParams) =>
-      `${params.row.quantityLeft / 10**15}`,
+      `${params.row.quantityLeft / params.row.askPerUnitDenominator}`,
   },
   {
     field: 'pricePerUnit',

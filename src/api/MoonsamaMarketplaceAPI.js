@@ -29,6 +29,8 @@ export function getAPIOrders({orderType, asset, maker, skip, first}){
             active
             quantity
             quantityLeft
+            askPerUnitNominator
+            askPerUnitDenominator
             fills {
                 id
                 order {
