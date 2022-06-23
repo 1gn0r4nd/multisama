@@ -58,68 +58,8 @@ export const marketplaceSlice = createSlice({
     name: 'marketplace',
     initialState,
     reducers: {
-        // update_orders: (state, action) => {
-        //     const payload = action.payload;
         //     //{orderType, asset, maker=address_everyone, skip=default_skip, first=default_first}
         //     //const orderType = payload.orderType || "BUY";
-        //     getAPIOrders(
-        //         {
-        //             orderType: payload.orderType,
-        //             asset: payload.asset,
-        //             maker: payload.maker,
-        //             skip: payload.skip,
-        //             first: payload.first
-        //         }
-        //     ).then(result => {
-                // console.log("marketplaceslice : "+ result);
-                //sort on pricePerUnit
-                // let result = [
-                //     {
-                //       "id": "0xd185399b7c589e0cbdc57102680a3353651132193dce5c6fcec0ec6eb2af4ed1",
-                //       "orderType": "BUY",
-                //       "seller": {
-                //         "id": "0x4fcc51e2e0a9d65e87e75dc2db1e68196532a33f"
-                //       },
-                //       "salt": "0x117e33da2a7079",
-                //       "createdAt": "1653755718",
-                //       "active": true,
-                //       "quantityLeft": "197316324600000000000",
-                //       "onlyTo": "0x0000000000000000000000000000000000000000",
-                //       "pricePerUnit": "1070000000000000"
-                //     },
-                //     {
-                //       "id": "0x00f5f1cb944b50b9ff4905eb80919be725272719c4ecc63d28f936d26eeba326",
-                //       "orderType": "BUY",
-                //       "seller": {
-                //         "id": "0xc60048fd2bccd82da8a1c0d06b3cf1bfd7d740a2"
-                //       },
-                //       "salt": "0x1c90089ba8bf25",
-                //       "createdAt": "1654014720",
-                //       "active": true,
-                //       "quantityLeft": "2349870000000000000",
-                //       "onlyTo": "0x0000000000000000000000000000000000000000",
-                //       "pricePerUnit": "1110000000000000"
-                //     },
-                //     {
-                //       "id": "0x2ad57e4b6239a10ae574ad403bd6e2fd2f07204ae6d8574c9378c099b14335f8",
-                //       "orderType": "BUY",
-                //       "seller": {
-                //         "id": "0x498bcbaed87038e83a190eec8993ac4626e1c92f"
-                //       },
-                //       "salt": "0x234552712adb3",
-                //       "createdAt": "1655888136",
-                //       "active": true,
-                //       "quantityLeft": "2400000000000000000",
-                //       "onlyTo": "0x0000000000000000000000000000000000000000",
-                //       "pricePerUnit": "2400000000000000"
-                //     }
-                //   ];
-            //     result.sort((a, b) => a.pricePerUnit < b.pricePerUnit ? 1 : -1);
-            //     return {
-            //         orders: result
-            //     };
-            // });
-    //   }
     },
     extraReducers(builder) {
         builder
@@ -128,11 +68,9 @@ export const marketplaceSlice = createSlice({
             })
             .addCase(updateOrders.fulfilled, (state, action) => {
                 state.status = 'succeeded'
-                let orders = action.payload.data.orders;
-                orders.sort((a, b) => a.pricePerUnit < b.pricePerUnit ? 1 : -1);
-                state.orders = orders;
-                // Add any fetched posts to the array
-                //state.orders = state.orders.concat(loadedOrders);
+                // let orders = action.payload.data.orders;
+                // orders.sort((a, b) => a.pricePerUnit < b.pricePerUnit ? 1 : -1);
+                state.orders = action.payload.data.orders;
             })
             .addCase(updateOrders.rejected, (state, action) => {
                 state.status = 'failed'
@@ -150,40 +88,9 @@ export const selectAllOrders = (state) => {
     return state.marketplace.orders;
 }
 
+export const getOrdersStatus = (state) => state.marketplace.status;
+export const getOrdersError = (state) => state.marketplace.error;
+
 export default marketplaceSlice.reducer;
 
 // export function updateOrders(dispatch, {orderType, asset, maker=address_everyone, skip=default_skip, first=default_first}) {
-//     // const [error, setError] = useState(null);
-//     // const [isLoaded, setIsLoaded] = useState(false);
-//     // const [items, setItems] = useState([]);
-//     getAPIOrders(
-//         {
-//             orderType: orderType,
-//             asset: asset,
-//             maker: maker,
-//             skip: skip,
-//             first: first
-//         }
-//     ).then(result => {
-//         dispatch(
-//             {
-//                 type: 'marketplace/UPDATE_ORDERS', 
-//                 payload: [result]
-//             });
-//     });
-
-
-//     // let sellOrders = getAPIOrders({
-//     //     orderType: 'sell',
-//     //     asset: asset,
-//     //     maker: address_everyone,
-//     //     skip: default_skip,
-//     //     first: default_first
-//     // });
-//     // return (dispatch, getState) => {
-//     //     const state = getState();
-//     // } 
-//     // [...buyOrders, ...sellOrders];
-    
-// }
-

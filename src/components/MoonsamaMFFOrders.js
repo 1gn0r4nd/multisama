@@ -1,10 +1,10 @@
 // import moment from 'moment';
 // import { useEffect} from 'react';
-// import moment from 'moment';
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 // import { useState } from "react"; 
 import OrderBookPressure from '../components/OrderBookPressure';
-import { updateOrders } from "../store/marketplaceSlice";
+import OrderBookTable from '../components/OrderBookTable';
+import MoonsamaMFFRefreshBtn from '../components/MoonsamaMFFRefreshBtn';
 import { selectAllOrders } from "../store/marketplaceSlice";
 //function sanitize(stats){
 //    let keys = Object.keys(stats);
@@ -16,19 +16,11 @@ const MoonsamaMFFOrders = () => {
     //const orders = useSelector((state) => state.marketplace.orders);
     const orders = useSelector(selectAllOrders);
     // const setOrders = useState();
-    const dispatch = useDispatch();
-    const payload = {
-        orderType: "BUY", 
-        asset: '0x1b30a3b5744e733d8d2f19f0812e3f79152a8777-2', 
-        maker: '0x0000000000000000000000000000000000000000', 
-        skip: 0, 
-        first: 100
-    }
     return(
         <section>
+            <MoonsamaMFFRefreshBtn asset='0x1b30a3b5744e733d8d2f19f0812e3f79152a8777-2' />
             <OrderBookPressure orders={orders} />
-            { JSON.stringify(orders)}
-            <button onClick={() => dispatch(updateOrders(payload))}>Refresh</button>
+            <OrderBookTable orders={orders} />
         </section>
     )
 }
