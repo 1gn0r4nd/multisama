@@ -2,6 +2,7 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 The info is taken from https://moonsama-api.moonsama.com/api/v1/docs/#/
+https://github.com/moonsama/dev-resources
 https://mcapi.moonsama.com/game/minecraft-carnage-2022-05-29/carnage-stats
 https://mcapi.moonsama.com/game/minecraft-carnage-2022-05-29/carnage-stats/view/final/player/1gn0r4nd
 https://mcapi.moonsama.com/game/minecraft-carnage-2022-05-29/carnage-stats/view/recordings

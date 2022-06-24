@@ -11,13 +11,12 @@ const columns: GridColDef[] = [
     editable: false,
   },
   {
-    field: 'seller',
-    headerName: 'Seller',
-    width: 230,
+    field: 'maker',
+    headerName: 'Maker',
+    width: 380,
     editable: false,
     valueGetter: (params: GridValueGetterParams) =>
-      `${params.row.seller.id || ''}`,
-      // ${params.row.buyer.id || ''}
+      `${params.row.seller.id}`
   },
   {
     field: 'qty',
@@ -33,7 +32,7 @@ const columns: GridColDef[] = [
     headerName: 'Price Per Unit',
     description: 'This column has a value getter and is not sortable.',
     sortable: false,
-    width: 160,
+    width: 110,
     valueGetter: (params: GridValueGetterParams) =>
       `${params.row.pricePerUnit / 10**18}`,
   },
@@ -52,16 +51,24 @@ const columns: GridColDef[] = [
 ];
 
 export default function OrderBookTable({orders}) {
-  return (
-    <Box sx={{ height: 400, width: '100%' }}>
-      <DataGrid
-        rows={orders}
-        columns={columns}
-        pageSize={5}
-        rowsPerPageOptions={[5]}
-        checkboxSelection
-        disableSelectionOnClick
-      />
-    </Box>
-  );
+  if(orders){
+    return (
+      <Box sx={{ height: 400, width: '100%' }}>
+        <DataGrid
+          rows={orders.buyOrders.concat(orders.sellOrders)}
+          columns={columns}
+          pageSize={5}
+          rowsPerPageOptions={[5]}
+          checkboxSelection
+          disableSelectionOnClick
+        />
+      </Box>
+    );
+  } else{
+    return (
+      <Box sx={{ height: 400, width: '100%' }}>
+        No data
+      </Box>
+    )
+  }
 }

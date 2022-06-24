@@ -1,0 +1,13 @@
+.loading {
+    animation: App-logo-spin infinite 0.5s linear;
+    background-color: 'red'
+}
+.idle {
+    
+}
+.succeeded {
+    
+}
+.failed {
+    
+}

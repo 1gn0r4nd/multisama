@@ -1,11 +1,11 @@
 // import moment from 'moment';
 // import { useEffect} from 'react';
-import { useSelector } from "react-redux";
-// import { useState } from "react"; 
+import { useSelector } from "react-redux"; 
 import OrderBookPressure from '../components/OrderBookPressure';
 import OrderBookTable from '../components/OrderBookTable';
 import MoonsamaMFFRefreshBtn from '../components/MoonsamaMFFRefreshBtn';
-import { selectAllOrders } from "../store/marketplaceSlice";
+import { selectAllOrders, getOrdersError } from "../store/marketplaceSlice";
+
 //function sanitize(stats){
 //    let keys = Object.keys(stats);
     //add keys which dont exist?
@@ -15,12 +15,15 @@ import { selectAllOrders } from "../store/marketplaceSlice";
 const MoonsamaMFFOrders = () => {
     //const orders = useSelector((state) => state.marketplace.orders);
     const orders = useSelector(selectAllOrders);
+    const errors = useSelector(getOrdersError);
+    const myAsset = '0x1b30a3b5744e733d8d2f19f0812e3f79152a8777-2';
     // const setOrders = useState();
     return(
         <section>
+            <div>{errors}</div>
             <MoonsamaMFFRefreshBtn asset='0x1b30a3b5744e733d8d2f19f0812e3f79152a8777-2' />
-            <OrderBookPressure orders={orders} />
-            <OrderBookTable orders={orders} />
+            <OrderBookPressure orders={orders[myAsset]} />
+            <OrderBookTable orders={orders[myAsset]} />
         </section>
     )
 }
@@ -28,7 +31,6 @@ const MoonsamaMFFOrders = () => {
 export default MoonsamaMFFOrders;
 // function MoonsamaMFFOrders({}) {
 //     // const dispatch = useDispatch();
-//     // const orders = useSelector(getOrders);
     
 //     useEffect(() => {
 //         const asset = "0x1b30a3b5744e733d8d2f19f0812e3f79152a8777-2"

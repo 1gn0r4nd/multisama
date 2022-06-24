@@ -21,7 +21,14 @@ import { getAPIOrders } from '../api/MoonsamaMarketplaceAPI';
 //0xe4edcaaea73684b310fc206405ee80abcec73ee0/# FISH
 
 const initialState = {
-    orders: [],
+    orders: new Array([
+        ['0x1b30a3b5744e733d8d2f19f0812e3f79152a8777-1',{'buyOrders': [], 'sellOrders': []}],
+        ['0x1b30a3b5744e733d8d2f19f0812e3f79152a8777-2',{'buyOrders': [], 'sellOrders': []}]
+    ]),
+    //{
+    //     buyOrders: [],
+    //     sellOrders: []
+    //},
     status: 'idle', //'idle' | 'loading' | 'succeeded' | 'failed',
     error: null
 }
@@ -30,8 +37,6 @@ const initialState = {
 //     switch (action.type){
 //         case 'marketplace/UPDATE_ORDERS':
 //             //let fresh_orders = updateOrders(action.payload);
-//             console.log("OLD state.orders");
-//             console.log(state.orders);
 //             return { 
 //                 ...state,
 //                 orders: state.orders.concat(action.payload)
@@ -70,7 +75,12 @@ export const marketplaceSlice = createSlice({
                 state.status = 'succeeded'
                 // let orders = action.payload.data.orders;
                 // orders.sort((a, b) => a.pricePerUnit < b.pricePerUnit ? 1 : -1);
-                state.orders = action.payload.data.orders;
+                let buyAsset = action.payload.data.buyOrders[0].buyAsset.id;
+                state.orders[buyAsset] =
+                    { 
+                        buyOrders: action.payload.data.buyOrders,
+                        sellOrders: action.payload.data.sellOrders,
+                    };
             })
             .addCase(updateOrders.rejected, (state, action) => {
                 state.status = 'failed'
