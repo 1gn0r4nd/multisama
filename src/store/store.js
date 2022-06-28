@@ -2,10 +2,12 @@ import { configureStore } from "@reduxjs/toolkit";
 import { combineReducers } from 'redux';
 import carnageReducer from './carnageSlice';
 import marketplaceReducer from './marketplaceSlice';
+import walletReducer from './walletSlice';
 
 const rootReducer = combineReducers({
     carnage: carnageReducer, 
-    marketplace: marketplaceReducer
+    marketplace: marketplaceReducer,
+    wallet: walletReducer
 });
 const store = configureStore( {
     reducer: rootReducer

@@ -1,8 +1,10 @@
 import axios from 'axios';
+import Pondsama from '../models/Pondsama';
 
 const marketplace_graphql_url = 'https://moonriver-subgraph.moonsama.com/subgraphs/name/moonsama/marketplacev5';
 const moonsama_api_url = 'https://moonsama-api.moonsama.com/api/v1/asset/address/check';
 const contract_graphql_url = 'https://moonriver-subgraph.moonsama.com/subgraphs/name/moonsama/nft-1155-mx/graphql';
+
 //https://moonriver-subgraph.moonsama.com/subgraphs/name/moonsama/multiverse-bridge/graphql
 //https://moonriver-subgraph.moonsama.com/subgraphs/name/moonsama/nft
 //https://moonriver-subgraph.moonsama.com/subgraphs/name/moonsama/nft-1155-factory
@@ -93,11 +95,25 @@ export function getAPIOrders({orderType, asset, maker, skip, first}){
     }`
     return axios.post(marketplace_graphql_url, {query});
 }
-export function getAPIFishes({walletAddress, chainId='MOONRIVER', maker, skip=0, first=1000}){
+export function getAPIFishes({walletAddress, chainId='MOONRIVER', skip=0, first=1000}){
     const url = `${moonsama_api_url
     }?recognizedAsset=PONDSAMA&owner=${walletAddress}&chainId=${chainId}&skip=${skip}&first=${first}`
+    return axios.get(url).then(response => {
+        let promise_array = response.data.tokens.map(
+            async function (fish) {
+                //assetId, location, amountOwned
+                return Pondsama.fetchPondsama({id: fish.assetId});
+        });
+        console.log(JSON.stringify(promise_array));
+        return Promise.all(promise_array);
+    });
+}
+
+export function getAPIFish({fishID}){
+    const url = `https://moonsama-api.moonsama.com/api/v1/nft/info/1285/ERC721/0xe4edcaaea73684b310fc206405ee80abcec73ee0/${fishID}`
     return axios.get(url);
 }
+
 export function getAPIMoonsamas({walletAddress, chainId='MOONRIVER', maker, skip=0, first=1000}){
     const url = `${moonsama_api_url}?recognizedAsset=MOONSAMA&owner=${walletAddress}&chainId=${chainId}&skip=${skip}&first=${first}`
     return axios.get(url);

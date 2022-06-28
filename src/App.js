@@ -1,8 +1,8 @@
 import './assets/css/fonts.css';
 import './assets/css/App.css';
 import NavigationBar from './components/NavigationBar';
-//import CarnageStatsPage from './pages/CarnageStatsPage';
-import OrdersPage from './pages/OrdersPage';
+// import { Route, Routes } from 'react-router-dom';
+// import CarnageStatsPage from './pages/CarnageStatsPage';
 
 
 function App() {
@@ -10,7 +10,7 @@ function App() {
     <div className="App">
       <NavigationBar />
       <div className="main">
-      <OrdersPage />
+        
       </div>
     </div>
   );

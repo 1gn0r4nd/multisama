@@ -46,7 +46,7 @@ const initialState = {
 //     }
 // }
 
-export const updateOrders = createAsyncThunk('marketplace/update_orders', async (payload) => {
+export const updateOrders = createAsyncThunk('marketplace/updateOrders', async (payload) => {
     const response = await getAPIOrders(
         {
             orderType: payload.orderType,
