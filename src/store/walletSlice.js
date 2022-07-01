@@ -14,7 +14,6 @@ export const updateFishes = createAsyncThunk('wallet/updateFishes', async (paylo
             walletAddress: payload.walletAddress
         }
     )
-    console.log(JSON.stringify(response));
     return response;
 })
 
@@ -30,19 +29,7 @@ export const walletSlice = createSlice({
             })
             .addCase(updateFishes.fulfilled, (state, action) => {
                 state.status = 'succeeded'
-                // let fishes = action.payload.tokens;
-                // let initialized_fishes = fishes.map((fish) => {
-                    // return Pondsama.fetchPondsama({id: fish.assetId});
-                    // let id = fish.assetId;
-                    // getAPIFish({fishID: id}).then(response => {
-                    //     console.log(response.tokenURIObject);
-                    //     console.log(response.name);
-                    //     console.log(response.description);
-                    //     console.log(response.attributes);
-                    // });
-                // });
-                console.log(JSON.stringify(action));
-                state.fishes = action.payload.tokens;
+                state.fishes = action.payload;
                 // state.fishes = initialized_fishes;
             })
             .addCase(updateFishes.rejected, (state, action) => {

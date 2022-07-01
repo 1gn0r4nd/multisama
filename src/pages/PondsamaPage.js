@@ -4,6 +4,7 @@ import Fab from '@mui/material/Fab';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { selectAllFishes, getWalletError } from "../store/walletSlice";
 import { updateFishes } from "../store/walletSlice";
+import PondsamaTable from '../components/PondsamaTable'
 
 const PondsamaPage = () => {
     const fishes = useSelector(selectAllFishes);
@@ -24,7 +25,7 @@ const PondsamaPage = () => {
                 >
                 <RefreshIcon />
             </Fab>
-            { JSON.stringify(fishes) }
+            <PondsamaTable fishes={fishes} />
         </div>
     );
 }

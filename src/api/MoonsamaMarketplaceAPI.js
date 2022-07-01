@@ -1,5 +1,5 @@
 import axios from 'axios';
-import Pondsama from '../models/Pondsama';
+import Pondsama from '../models/Pondsama.tsx';
 
 const marketplace_graphql_url = 'https://moonriver-subgraph.moonsama.com/subgraphs/name/moonsama/marketplacev5';
 const moonsama_api_url = 'https://moonsama-api.moonsama.com/api/v1/asset/address/check';
@@ -95,6 +95,86 @@ export function getAPIOrders({orderType, asset, maker, skip, first}){
     }`
     return axios.post(marketplace_graphql_url, {query});
 }
+
+export function getAPIOrdersByAsset({asset, maker, skip, first}){
+    //TODO filter by maker
+    const query = `
+    query getAssetOrders {
+        buyOrders:
+            orders(
+                skip: ${skip}, 
+                first: ${first}, 
+                orderBy: createdAt, 
+                orderDirection: desc, 
+                where: {
+                    buyAsset: "${asset}"
+                }, 
+                subgraphError: deny
+            ) 
+            {
+                id
+            }
+        sellOrders:
+            orders(
+                skip: ${skip}, 
+                first: ${first}, 
+                orderBy: createdAt, 
+                orderDirection: desc, 
+                where: {
+                    sellAsset: "${asset}"
+                }, 
+                subgraphError: deny
+            ) 
+            {
+                id
+            }
+    }`
+    return axios.post(marketplace_graphql_url, {query});
+}
+
+
+export function getAPIOrderFills({asset, maker, skip=0, first=1000}){
+    //TODO filter by maker
+    //buyer: String,
+    return getAPIOrdersByAsset({asset, maker, skip, first}).then( response => {
+        const all_orders = response.data.data.buyOrders.concat(response.data.data.sellOrders);
+        const all_order_ids = all_orders.map((order) => {
+            return `"${order.id}"`
+        });
+        const query = `
+        query getLatestFills {
+            latestFills:
+                fills(
+                    skip: ${skip}, 
+                    first: ${first}, 
+                    orderBy: createdAt, 
+                    orderDirection: desc, 
+                    where: {
+                        order_in: [${all_order_ids}]
+                    }
+                ) 
+                {
+                    id
+                    buyerSendsAmountFull
+                    order {
+                        quantity
+                        sellAsset {
+                        assetId
+                        assetAddress
+                        }
+                        buyAsset {
+                        assetId
+                        assetAddress
+                        }
+                        askPerUnitNominator
+                        askPerUnitDenominator
+                    }
+                    createdAt
+                }
+        }`
+        return axios.post(marketplace_graphql_url, {query});
+    });
+}
 export function getAPIFishes({walletAddress, chainId='MOONRIVER', skip=0, first=1000}){
     const url = `${moonsama_api_url
     }?recognizedAsset=PONDSAMA&owner=${walletAddress}&chainId=${chainId}&skip=${skip}&first=${first}`
@@ -104,7 +184,6 @@ export function getAPIFishes({walletAddress, chainId='MOONRIVER', skip=0, first=
                 //assetId, location, amountOwned
                 return Pondsama.fetchPondsama({id: fish.assetId});
         });
-        console.log(JSON.stringify(promise_array));
         return Promise.all(promise_array);
     });
 }

@@ -1,30 +1,43 @@
 import { getAPIFish } from '../api/MoonsamaMarketplaceAPI';
 export default class Pondsama {
-    name//: string;
-    description
-    attributes
-    constructor({name, description, breed, attributes}) {
-        this.name = name;
-        this.description = description;
-        this.breed = breed;
-        this.attributes = attributes;
+    id: number;
+    name: string;
+    description: string;
+    attributes: [];
+    constructor(
+        {
+            id,
+            name, 
+            description, 
+            attributes
+        } :{
+            id: number,
+            name: string, 
+            description: string, 
+            attributes: []
+        }) {
+            this.id = id;
+            this.name = name;
+            this.description = description;
+            this.attributes = attributes;
     }
 
-    static async fetchPondsama({id}) {
-        return getAPIFish({ fishID: id}).then(response => {
-                        let base_attributes = response.data.tokenURIObject;
-                        // console.log(response.name);
-                        const name = base_attributes.name;
-                        const description = base_attributes.description;
-                        const attributes = base_attributes.attributes
-                        return new Pondsama(
-                            {
-                                name: name, 
-                                description: description, 
-                                attributes: attributes
-                            }
-                        );
-                    });
+    static async fetchPondsama({id} : {id: number}) {
+        return getAPIFish({ fishID: id})
+            .then(response => {
+                let base_attributes = response.data.tokenURIObject;
+                const name = base_attributes.name;
+                const description = base_attributes.description;
+                const attributes = base_attributes.attributes
+                return new Pondsama(
+                    {
+                        id: id,
+                        name: name, 
+                        description: description, 
+                        attributes: attributes
+                    }
+                );
+            });
                     // {"data":
                     // {"asset":
                     //     {"chainId":1285,"assetAddress":"0xe4edcaaea73684b310fc206405ee80abcec73ee0","assetId":"3150","assetType":"ERC721","id":"0xe4edcaaea73684b310fc206405ee80abcec73ee0-3150"}

@@ -1,6 +1,10 @@
-# Getting Started with Create React App
+# Multisama
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was created to get some data from moonsama and its different metaverses.
+
+//awesome-typescript-loader 
+//source-map-loader
+
 The info is taken from https://moonsama-api.moonsama.com/api/v1/docs/#/
 https://github.com/moonsama/dev-resources
 https://mcapi.moonsama.com/game/minecraft-carnage-2022-05-29/carnage-stats

@@ -1,5 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getAPIOrders } from '../api/MoonsamaMarketplaceAPI';
+import { 
+    getAPIOrders, 
+    getAPIOrderFills 
+} from '../api/MoonsamaMarketplaceAPI';
 // const aWood = '0x1b30a3b5744e733d8d2f19f0812e3f79152a8777/1';
 // const aStone = '0x1b30a3b5744e733d8d2f19f0812e3f79152a8777/2';
 // const aIron = '0x1b30a3b5744e733d8d2f19f0812e3f79152a8777/3';
@@ -25,31 +28,30 @@ const initialState = {
         ['0x1b30a3b5744e733d8d2f19f0812e3f79152a8777-1',{'buyOrders': [], 'sellOrders': []}],
         ['0x1b30a3b5744e733d8d2f19f0812e3f79152a8777-2',{'buyOrders': [], 'sellOrders': []}]
     ]),
-    //{
-    //     buyOrders: [],
-    //     sellOrders: []
-    //},
+    fills: new Array([
+        ['0x1b30a3b5744e733d8d2f19f0812e3f79152a8777-1',[]],
+        ['0x1b30a3b5744e733d8d2f19f0812e3f79152a8777-2',[]]
+    ]),
     status: 'idle', //'idle' | 'loading' | 'succeeded' | 'failed',
     error: null
 }
-
-// export function marketplaceReducer(state = initialState, action) {
-//     switch (action.type){
-//         case 'marketplace/UPDATE_ORDERS':
-//             //let fresh_orders = updateOrders(action.payload);
-//             return { 
-//                 ...state,
-//                 orders: state.orders.concat(action.payload)
-//             };
-//         default:
-//             return state;
-//     }
-// }
 
 export const updateOrders = createAsyncThunk('marketplace/updateOrders', async (payload) => {
     const response = await getAPIOrders(
         {
             orderType: payload.orderType,
+            asset: payload.asset,
+            maker: payload.maker,
+            skip: payload.skip,
+            first: payload.first
+        }
+    )
+    return response.data;
+})
+
+export const updateFills = createAsyncThunk('marketplace/updateFills', async (payload) => {
+    const response = await getAPIOrderFills(
+        {
             asset: payload.asset,
             maker: payload.maker,
             skip: payload.skip,
@@ -86,6 +88,19 @@ export const marketplaceSlice = createSlice({
                 state.status = 'failed'
                 state.error = action.error.message
             })
+            .addCase(updateFills.pending, (state, action) => {
+                state.status = 'loading'
+            })
+            .addCase(updateFills.fulfilled, (state, action) => {
+                state.status = 'succeeded'
+                let buyAsset = '0x1b30a3b5744e733d8d2f19f0812e3f79152a8777-2';
+                state.fills[buyAsset] = action.payload.data.latestFills;
+            })
+            .addCase(updateFills.rejected, (state, action) => {
+                state.status = 'failed'
+                state.error = action.error.message
+            })
+
     }
   })
 
@@ -97,6 +112,11 @@ export const marketplaceSlice = createSlice({
 export const selectAllOrders = (state) => {
     return state.marketplace.orders;
 }
+
+export const selectAllFills = (state) => {
+    return state.marketplace.fills;
+}
+
 
 export const getOrdersStatus = (state) => state.marketplace.status;
 export const getOrdersError = (state) => state.marketplace.error;
