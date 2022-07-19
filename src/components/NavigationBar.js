@@ -9,8 +9,9 @@ function NavigationBar() {
           <Button component={Link} variant="text" to="orders">Orders</Button>
           <Button component={Link} variant="text" to="pondsama">Pondsama</Button>
           <Button component={Link} variant="text" to="chpostarts">Post</Button>
-          
+          <Button component={Link} variant="text" to="carnage">Carnage</Button>
           <Button component={Link} variant="text" to="charts">Charts</Button>
+          <Button component={Link} variant="text" to="wallet">Wallet</Button>
           
           <Button startIcon={<OpenInNew />} variant="text" href="https://minecraft-metaverse.moonsama.com/login" target="_blank">Bridge</Button>
           <Button startIcon={<OpenInNew />} variant="text" href="https://wiki.moonsama.com/" target="_blank">Wiki</Button>

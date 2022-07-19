@@ -76,6 +76,9 @@ export function getAPIOrders({orderType, asset, maker, skip, first}){
                 }
                 salt
                 createdAt
+                buyAsset{
+                    id
+                }
                 active
                 quantity
                 quantityLeft

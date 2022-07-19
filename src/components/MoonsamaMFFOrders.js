@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import OrderBookPressure from '../components/OrderBookPressure';
 import OrderBookTable from '../components/OrderBookTable';
 import MoonsamaMFFRefreshBtn from '../components/MoonsamaMFFRefreshBtn';
-import { selectAllOrders, getOrdersError } from "../store/marketplaceSlice";
+// import { selectAllOrders, getOrdersError } from "../store/marketplaceSlice.tsx";
 
 //function sanitize(stats){
 //    let keys = Object.keys(stats);
@@ -14,8 +14,8 @@ import { selectAllOrders, getOrdersError } from "../store/marketplaceSlice";
 
 const MoonsamaMFFOrders = () => {
     //const orders = useSelector((state) => state.marketplace.orders);
-    const orders = useSelector(selectAllOrders);
-    const errors = useSelector(getOrdersError);
+    const orders = []//= useSelector(selectAllOrders);
+    const errors = '//useSelector(getOrdersError);'
     const myAsset = '0x1b30a3b5744e733d8d2f19f0812e3f79152a8777-2';
     // const setOrders = useState();
     return(

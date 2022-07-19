@@ -5,18 +5,11 @@ import Card from '@mui/material/Card';
 import ResourceListItem from './ResourceListItem';
 import {ResourceIcons} from '../helpers/ResourceIcons';
 import { getLastSunday, formatDate } from '../helpers/CarnageCalculator'
-// import { connect } from 'react-redux';
 
-//function sanitize(stats){
-//    let keys = Object.keys(stats);
-    //add keys which dont exist?
-    //stats.hasOwnProperty(resource)
-//}
-function MoonsamaCarnageStats({player, last_sunday_from_date}) {
+function MoonsamaCarnageStats({player}) {
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [items, setItems] = useState([]);
-
     function sanitize(data){
         if(!data.hasOwnProperty('exp')){
             data.exp = 0;
@@ -34,22 +27,22 @@ function MoonsamaCarnageStats({player, last_sunday_from_date}) {
     }
 
     useEffect(() => {
-        if(last_sunday_from_date === undefined){
-            last_sunday_from_date = getLastSunday();
+        if(!player.trim() === '') {
+            const last_sunday_from_date = getLastSunday();
+            let formatted_date = formatDate(last_sunday_from_date);
+            
+            const carnage_url = `https://mcapi.moonsama.com/game/minecraft-carnage-${formatted_date}/carnage-stats/result/final?player=${player}` 
+            axios.get(carnage_url)
+            .then(result=>{
+                setIsLoaded(true);
+                sanitize(result.data);
+            })
+            .catch(err=>{
+                setIsLoaded(true);
+                setError(err);
+            })
         }
-        let formatted_date = formatDate(last_sunday_from_date);
-        
-        const carnage_url = `https://mcapi.moonsama.com/game/minecraft-carnage-${formatted_date}/carnage-stats/result/final?player=${player}` 
-        axios.get(carnage_url)
-        .then(result=>{
-            setIsLoaded(true);
-            sanitize(result.data);
-        })
-        .catch(err=>{
-            setIsLoaded(true);
-            setError(err);
-        })
-    }, [player, last_sunday_from_date]);
+    }, [player]);
 
    
     if (error) {

@@ -1,9 +1,13 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useState } from "react";
+import { useSelector } from "react-redux";
 import MoonsamaCarnageStats from '../components/MoonsamaCarnageStats';
-import { getLastSunday } from '../helpers/CarnageCalculator';
+import { getCarnageStatsError } from "../store/carnageSlice";
 
-class CarnageStatsPage extends React.Component {
+
+const CarnageStatsPage = () => {
+    const [player, setPlayer] = useState(''); //store player only in this component
+    const onPlayerChanged = e => setPlayer(e.target.value);
     // constructor(props) {
     //      super(props);
     //      let timeout = null;
@@ -27,29 +31,22 @@ class CarnageStatsPage extends React.Component {
     //         this.props.dispatch(addPlayerAction);
     //     }
     // }
-
-    render() {
-        return (
-            <div className='CarnageStatsPage'>
-                <h1>Pondsama</h1>
-                <h1>Test</h1>
-                <input 
-                    type='text' 
-                    id='player_name' 
-                    placeholder='player name' 
-                    value={player}
-                    onchange={(event) => this.props.dispatch({type: "carnage/CHANGE_PLAYER", player: event.target.value}>
-                </input>
-                <input type='select' id='carnage_date' placeholder={getLastSunday()}></input>
-                <MoonsamaCarnageStats player={this.props.player} year={2022} />
-            </div>
-        )
-    }
+    const error = useSelector(getCarnageStatsError);
+    return (
+        <div className='CarnageStatsPage'>
+            {error}
+            <h1>Carnage {player}</h1>
+            <input 
+                type='text' 
+                id='player_name' 
+                placeholder='player name' 
+                value={player}
+                onChange={onPlayerChanged}
+            >
+            </input>
+            <MoonsamaCarnageStats player={player} />
+        </div>
+    )
 }
 
-function mapStateToProps(state) {
-    return {
-        player: state.player
-    };
-}
-export default connect(mapStateToProps)(CarnageStatsPage);
+export default CarnageStatsPage;
