@@ -35,7 +35,7 @@ export interface GetFilledOrdersByAssetListResponse{
     }
 }
 
-export const api = createApi({
+export const marketplaceFilledOrdersApi = createApi({
     baseQuery: graphqlRequestBaseQuery({
       url: marketplace_graphql_url,
     }),
@@ -102,5 +102,5 @@ export const api = createApi({
     //   }),
     }),
   })
-export const { useGetFilledOrdersByAssetListQuery } = api
+export const { useGetFilledOrdersByAssetListQuery } = marketplaceFilledOrdersApi
 //   export const { useGetPostsQuery, useGetPostQuery } = api
