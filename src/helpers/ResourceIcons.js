@@ -9,5 +9,5 @@ import aFish from './../assets/img/mmaf/aFishSpecimen.png';
 
 export const ResourceIcons = 
 {
-    alpha:{aStone,aWood,aIron,aGold ,aExp ,aGrain,aString,aFish}
-} 
+    alpha:{aStone,aWood,aIron,aGold,aExp,aGrain,aString,aFish}
+}

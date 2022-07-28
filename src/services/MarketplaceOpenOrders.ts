@@ -59,6 +59,19 @@ export interface SellOrder{
     onlyTo: string
     pricePerUnit: number
 }
+
+export interface BuyOrderId {
+    id: string
+}
+
+export interface SellOrderId{
+    id: string
+}
+export interface OrderIdsList {
+    'buyOrders': BuyOrderId[], 
+    'sellOrders': SellOrderId[]
+}
+
 export interface OrdersList {
     'buyOrders': BuyOrder[], 
     'sellOrders': SellOrder[]
@@ -70,25 +83,29 @@ export interface Pagination {
     total_pages: number
 }
 
-export interface GetMarketplaceOrdersResponse extends Pagination {
+export interface GetMarketplaceOpenOrdersResponse extends Pagination {
     data: {
         orders_list: OrdersList
     }
 }
 
-export const api = createApi({
+export interface GetOrderIdsByAssetListResponse extends Pagination {
+    data: OrderIdsList
+}
+
+export const marketplaceOpenOrdersApi = createApi({
     baseQuery: graphqlRequestBaseQuery({
       url: marketplace_graphql_url,
     }),
     endpoints: (builder) => ({
       getOrdersList: builder.query<
-        GetMarketplaceOrdersResponse,
+        GetMarketplaceOpenOrdersResponse,
         { page?: number; per_page?: number; asset: string; }
       >({
         query: ({ page, per_page, asset }) => ({
           document: gql`
             #($page-1) * $per_page
-            query getAssetOrders($page: Int = 1, $per_page: Int = 1000) {
+            query getAssetOrders($page: Int = 1, $per_page: Int = 1000,  $asset: String) {
                 buyOrders:
                     orders(
                         skip: 0, 
@@ -174,9 +191,55 @@ export const api = createApi({
             per_page,
             asset
           },
-          transformResponse: (response: GetMarketplaceOrdersResponse) => response.data,
+          transformResponse: (response: GetMarketplaceOpenOrdersResponse) => response.data,
         }),
       }),
+      getOrderIdsByAssetList: builder.query<
+            GetOrderIdsByAssetListResponse,
+            { page?: number; per_page?: number; asset: string; }
+        >({
+        query: ({ page, per_page, asset }) => ({
+            document: gql`
+                #($page-1) * $per_page
+                query getAssetOrders($page: Int = 1, $per_page: Int = 1000, $asset: String) {
+                    buyOrders:
+                        orders(
+                            skip: 0, 
+                            first: $per_page, 
+                            orderBy: createdAt, 
+                            orderDirection: desc, 
+                            where: {
+                                buyAsset: $asset
+                            }, 
+                            subgraphError: deny
+                        ) 
+                        {
+                            id
+                        }
+                    sellOrders:
+                        orders(
+                            skip: 0, 
+                            first: $per_page, 
+                            orderBy: createdAt, 
+                            orderDirection: desc, 
+                            where: {
+                                sellAsset: $asset
+                            }, 
+                            subgraphError: deny
+                        ) 
+                        {
+                            id
+                        }
+                }
+            `,
+            variables: {
+                page,
+                per_page,
+                asset
+            },
+            transformResponse: (response: GetOrderIdsByAssetListResponse) => response.data,
+            }),
+        }),
     //   getPost: builder.query<Post, string>({
     //     query: (id) => ({
     //       document: gql`
@@ -193,5 +256,5 @@ export const api = createApi({
     //   }),
     }),
   })
-export const { useGetOrdersListQuery } = api
+export const { useGetOrdersListQuery, useGetOrderIdsByAssetListQuery } = marketplaceOpenOrdersApi
 //   export const { useGetPostsQuery, useGetPostQuery } = api
